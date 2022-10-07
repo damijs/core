@@ -1,0 +1,9 @@
+export {};
+// export class UserToken {
+//   static getToken(user: IUserToken): string {
+//     return jwt.sign(user, (Dami.loginUser.authToken ? Dami.loginUser.authToken : Dami.loginUser[0].authToken), {
+//       algorithm: 'HS256',
+//       expiresIn: Dami.loginUser.authExpire ? Dami.loginUser.authExpire : Dami.loginUser[0].authExpire,
+//     });
+//   }
+// }
