@@ -10,5 +10,7 @@ var configAttr;
     configAttr["ENABLE_RBAC"] = "enableRbac";
     configAttr["CONTROLLER"] = "controllers";
     configAttr["SERVICES"] = "services";
+    configAttr["PRODUCTION"] = "production";
+    configAttr["VIEWENGINE"] = "viewEngine";
 })(configAttr || (configAttr = {}));
 export default configAttr;

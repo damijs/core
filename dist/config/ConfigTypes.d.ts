@@ -8,6 +8,8 @@ declare enum configAttr {
     DB = "db",
     ENABLE_RBAC = "enableRbac",
     CONTROLLER = "controllers",
-    SERVICES = "services"
+    SERVICES = "services",
+    PRODUCTION = "production",
+    VIEWENGINE = "viewEngine"
 }
 export default configAttr;

@@ -1,6 +1,6 @@
 import GuestUser from '../auth/GuestUser';
 const appConfig = {
-    production: true,
+    production: false,
     port: 3000,
     loginUser: {
         authUser: GuestUser,
