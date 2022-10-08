@@ -111,7 +111,7 @@ class DamiApp {
             /**
              * this is where dami auto code generator is register
              */
-            if (Dami.config[Cattr.PRODUCTION]) {
+            if (!Dami.config[Cattr.PRODUCTION]) {
                 if (Object.keys(Dami.dbConfig).length === 0) {
                     app.use(`/${Cattr.APP_NAME}`, (req, res, next) => {
                         if (Object.keys(Dami.dbConfig).length === 0) {
