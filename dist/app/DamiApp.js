@@ -1,3 +1,12 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 import LogTrack from '../log/LogTrack';
 import { Mysql } from '@damijs/mysql';
 import Methods from '../controllers/Methods';
@@ -13,6 +22,8 @@ import Cattr from "../config/ConfigTypes";
 import * as _path from 'path';
 import { fileURLToPath } from 'url';
 import Controller from '../controllers/Controller';
+import DamiConfigure from '../config/ConfigTypes';
+import { isEmpty } from '@damijs/hp';
 const __dirname = _path.dirname(fileURLToPath(import.meta.url));
 class DamiApp {
     constructor() {
@@ -64,9 +75,21 @@ class DamiApp {
                 count++;
                 next();
             });
+            if (Object.values(Dami.publicDir).length > 0) {
+                if (Dami.publicDir.from != undefined) {
+                    app.use(Dami.publicDir.from, express.static(Dami.publicDir.path));
+                }
+                else {
+                    app.use(express.static(Dami.publicDir.path));
+                }
+            }
             app.use(track.start);
             if (initRun) {
                 initRun(app);
+            }
+            const beforeRequest = Dami.config[Cattr.BEFORE_REQUEST];
+            if (!isEmpty(beforeRequest)) {
+                app.use(beforeRequest);
             }
             if (this.controllers == null) {
                 throw new Error(`Controllers 'controllers' not configured`);
@@ -155,13 +178,42 @@ class DamiApp {
                     app.use(`/${Cattr.APP_NAME}`, express.static(__dirname + "/../migration/resource/client"));
                 }
             }
-            if (Object.values(Dami.publicDir).length > 0) {
-                if (Dami.publicDir.from != undefined) {
-                    app.use(Dami.publicDir.from, express.static(Dami.publicDir.path));
-                }
-                else {
-                    app.use(express.static(Dami.publicDir.path));
-                }
+            const afterRequest = Dami.config[Cattr.AFTER_REQUEST];
+            if (!isEmpty(afterRequest)) {
+                app.use(afterRequest);
+            }
+            const sr = Dami.config[DamiConfigure.SERVER_RENDER];
+            if (sr) {
+                app.use((req, res, next) => __awaiter(this, void 0, void 0, function* () {
+                    if (!res.headersSent) {
+                        const file = Dami.getCurrentPath() + '/' + sr.page;
+                        if (!_fs.existsSync(file)) {
+                            return next();
+                        }
+                        _fs.readFile(file, (err, data) => {
+                            let _srdata = data.toString("utf-8");
+                            const title = res.title;
+                            if (title) {
+                                const _ctitle = `<title>${title}</title>`;
+                                _srdata = _srdata.replace("{{title}}", _ctitle);
+                            }
+                            if (!isEmpty(res.meta)) {
+                                const _cmeta = res.meta.map(m => {
+                                    const _m = Object.keys(m).map(a => {
+                                        return `${a}="${m[a]}"`;
+                                    }).join(" ");
+                                    return `<meta ${_m}/>`;
+                                }).join("\n");
+                                _srdata = _srdata.replace("{{meta}}", _cmeta);
+                            }
+                            res.setHeader("Content-Type", "text/html");
+                            res.status(HttpCode.OK).send(_srdata).end();
+                        });
+                    }
+                    else {
+                        next();
+                    }
+                }));
             }
             app.use(track.memory);
             app.use(track.time);

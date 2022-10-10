@@ -1,4 +1,12 @@
+interface IUrlParamsObject {
+    [key: string]: string;
+}
+interface IUrlConfig {
+    params?: IUrlParamsObject | (string | number)[];
+    absolute?: boolean;
+    basePath?: boolean;
+}
 declare class Url {
-    static to(path: string, params?: object | (string | number)[], absolute?: boolean): string;
+    static to(path: string, config: IUrlConfig): string;
 }
 export default Url;

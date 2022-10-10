@@ -4,7 +4,7 @@ import DamiCache from '@damijs/cache';
 import * as _path from 'path';
 import CType from "../config/ConfigTypes";
 const damiVar = [
-    'port', 'publicDir', 'dbConfig',
+    'port', 'publicDir', 'dbConfig', 'appName', 'basePath',
     'baseUrl', 'requiredLogin', 'beforeAction',
     'afterAction', 'rbac', 'loginUser', 'enableRbac'
 ];
@@ -22,12 +22,12 @@ class Dami {
             }
         }
         Dami.config = config;
-        if (!(CType.BASE_PATH in config)) {
+        if (!(CType.RESOURCE_PATH in config)) {
             throw new Error('basePath config not setup!');
         }
         this.authTokens = new DamiCache();
         this.store = new DamiCache();
-        this._dirname = _path.resolve(_path.dirname('')) + '/' + config[CType.BASE_PATH] + '/';
+        this._dirname = _path.resolve(_path.dirname('')) + '/' + config[CType.RESOURCE_PATH] + '/';
     }
     static set(key, value, config) {
         this.store.set(key, value, config);

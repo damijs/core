@@ -5,4 +5,8 @@ declare namespace Express {
         authJson?: any;
         files?: any;
     }
+    interface Response {
+        meta?: object[];
+        title?: string;
+    }
 }

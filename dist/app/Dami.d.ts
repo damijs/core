@@ -4,12 +4,14 @@ import { IDatabase, IPubdirConfig, IUserAuth, IUserAuthList, _IUserConfig, IDami
 import { Mysql } from '@damijs/mysql';
 import IAuth from '../auth/IAuth';
 declare class Dami {
+    static appName: string;
     static config: IDamiConfig;
     static port: number;
     static publicDir: IPubdirConfig;
     static dbConfig: IDatabase;
     static db: Mysql;
     static baseUrl: string;
+    static basePath: string;
     static loginUser: IUserAuth | IUserAuthList;
     static enableRbac: boolean;
     private static store;

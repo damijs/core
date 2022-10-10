@@ -14,4 +14,5 @@ import Url from './helpers/Url';
 import Service from './service/Service';
 import { isEmpty } from '@damijs/hp';
 import MiddleWare from './app/MiddleWare';
-export { Connection, Query, isEmpty, Service, Url, MiddleWare, Authorization, Rid, FileHelper, ActiveRecords, Controller, Methods, QueryBuild, ListModel, DamiCache, RbacController, HttpCode, Dami, DamiApp, DataProvider };
+import DamiConfigure from './config/ConfigTypes';
+export { DamiConfigure, Connection, Query, isEmpty, Service, Url, MiddleWare, Authorization, Rid, FileHelper, ActiveRecords, Controller, Methods, QueryBuild, ListModel, DamiCache, RbacController, HttpCode, Dami, DamiApp, DataProvider };

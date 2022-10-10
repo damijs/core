@@ -1,3 +1,4 @@
+import { NextFunction, Request, Response } from "express";
 import IAuth from "../auth/IAuth";
 import IController from "../controllers/IController";
 export interface IDatabase {
@@ -32,8 +33,11 @@ export interface IPubdirConfig {
 export interface IRbacFunc {
     (user: IAuth, path: string): boolean;
 }
-export interface IActionFunc {
+export interface IMiddleAction {
     (): any[];
+}
+export interface IActionFunc {
+    (request: Request, response: Response, next: NextFunction): void;
 }
 export interface IRequiredLoginFunc {
     (): boolean | string[];
@@ -41,7 +45,13 @@ export interface IRequiredLoginFunc {
 export interface IDamiList {
     [key: string]: object;
 }
+export interface IServerRender {
+    path: string;
+    has: boolean;
+    page: string;
+}
 export interface IDamiConfig {
+    appName: string;
     production: boolean;
     port: number;
     controllers: IControllerList | null;
@@ -51,13 +61,17 @@ export interface IDamiConfig {
     loginUser?: IUserAuthList | IUserAuth;
     publicDir?: IPubdirConfig;
     basePath?: string;
+    resourcePath?: string;
     path?: object;
     initAction?: Function;
     requiredLogin?: IRequiredLoginFunc;
-    beforeAction?: IActionFunc;
-    afterAction?: IActionFunc;
+    beforeAction?: IMiddleAction;
+    afterAction?: IMiddleAction;
+    beforeRequest?: IActionFunc;
+    afterRequest?: IActionFunc;
     rbac?: IRbacFunc;
     dbConfig?: IDatabase;
     enableRbac?: boolean;
     services?: Array<any>;
+    serverRender?: IServerRender;
 }

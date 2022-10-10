@@ -1,5 +1,6 @@
 import GuestUser from '../auth/GuestUser';
 const appConfig = {
+    appName: "Dami App",
     production: false,
     port: 3000,
     loginUser: {

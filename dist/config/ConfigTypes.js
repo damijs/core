@@ -1,16 +1,20 @@
-var configAttr;
-(function (configAttr) {
-    configAttr["APP_NAME"] = "dami";
-    configAttr["PORT"] = "port";
-    configAttr["LOGIN"] = "loginUser";
-    configAttr["BASE_URL"] = "baseUrl";
-    configAttr["BASE_PATH"] = "basePath";
-    configAttr["PATH"] = "path";
-    configAttr["DB"] = "db";
-    configAttr["ENABLE_RBAC"] = "enableRbac";
-    configAttr["CONTROLLER"] = "controllers";
-    configAttr["SERVICES"] = "services";
-    configAttr["PRODUCTION"] = "production";
-    configAttr["VIEWENGINE"] = "viewEngine";
-})(configAttr || (configAttr = {}));
-export default configAttr;
+var DamiConfigure;
+(function (DamiConfigure) {
+    DamiConfigure["APP_NAME"] = "dami";
+    DamiConfigure["PORT"] = "port";
+    DamiConfigure["LOGIN"] = "loginUser";
+    DamiConfigure["BASE_URL"] = "baseUrl";
+    DamiConfigure["BASE_PATH"] = "basePath";
+    DamiConfigure["AFTER_REQUEST"] = "afterRequest";
+    DamiConfigure["BEFORE_REQUEST"] = "beforeRequest";
+    DamiConfigure["RESOURCE_PATH"] = "resourcePath";
+    DamiConfigure["SERVER_RENDER"] = "serverRender";
+    DamiConfigure["PATH"] = "path";
+    DamiConfigure["DB"] = "db";
+    DamiConfigure["ENABLE_RBAC"] = "enableRbac";
+    DamiConfigure["CONTROLLER"] = "controllers";
+    DamiConfigure["SERVICES"] = "services";
+    DamiConfigure["PRODUCTION"] = "production";
+    DamiConfigure["VIEWENGINE"] = "viewEngine";
+})(DamiConfigure || (DamiConfigure = {}));
+export default DamiConfigure;

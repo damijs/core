@@ -18,4 +18,5 @@ import MiddleWare from './app/MiddleWare';
 import IMiddleWare from './app/IMiddleWare';
 import { _IUserConfig, IDamiConfig } from './config/IConfig';
 import IController from './controllers/IController';
-export { _IUserConfig, IDamiConfig, Connection, NextFunction, Request, Response, Query, isEmpty, Service, Url, MiddleWare, Authorization, Rid, FileHelper, IController, IActiveModel, ActiveRecords, Controller, Methods, QueryBuild, ListModel, DamiCache, RbacController, IAuth, HttpCode, Dami, DamiApp, DataProvider, IMiddleWare };
+import DamiConfigure from './config/ConfigTypes';
+export { DamiConfigure, _IUserConfig, IDamiConfig, Connection, NextFunction, Request, Response, Query, isEmpty, Service, Url, MiddleWare, Authorization, Rid, FileHelper, IController, IActiveModel, ActiveRecords, Controller, Methods, QueryBuild, ListModel, DamiCache, RbacController, IAuth, HttpCode, Dami, DamiApp, DataProvider, IMiddleWare };
