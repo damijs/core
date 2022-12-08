@@ -7,6 +7,7 @@ export interface IDatabase {
     user: string;
     password: string;
     database: string;
+    port: number;
     dummy?: boolean;
 }
 export interface IUserAuth {
@@ -47,7 +48,6 @@ export interface IDamiList {
 }
 export interface IServerRender {
     path: string;
-    has: boolean;
     page: string;
 }
 export interface IDamiConfig {
@@ -73,5 +73,5 @@ export interface IDamiConfig {
     dbConfig?: IDatabase;
     enableRbac?: boolean;
     services?: Array<any>;
-    serverRender?: IServerRender;
+    serverRender?: IServerRender | IServerRender[];
 }

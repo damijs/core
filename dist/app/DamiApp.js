@@ -186,29 +186,28 @@ class DamiApp {
             if (sr) {
                 app.use((req, res, next) => __awaiter(this, void 0, void 0, function* () {
                     if (!res.headersSent) {
-                        const file = Dami.getCurrentPath() + '/' + sr.page;
-                        if (!_fs.existsSync(file)) {
-                            return next();
+                        let currentPage = {};
+                        if (Array.isArray(sr)) {
+                            let brk = false;
+                            sr.forEach(e => {
+                                if (brk)
+                                    return false;
+                                const path = req.path;
+                                if (!path.startsWith(e.path)) {
+                                    return false;
+                                }
+                                currentPage = Object.assign({}, e);
+                                brk = true;
+                            });
+                            if (!brk)
+                                return next();
                         }
-                        _fs.readFile(file, (err, data) => {
-                            let _srdata = data.toString("utf-8");
-                            const title = res.title;
-                            if (title) {
-                                const _ctitle = `<title>${title}</title>`;
-                                _srdata = _srdata.replace("{{title}}", _ctitle);
-                            }
-                            if (!isEmpty(res.meta)) {
-                                const _cmeta = res.meta.map(m => {
-                                    const _m = Object.keys(m).map(a => {
-                                        return `${a}="${m[a]}"`;
-                                    }).join(" ");
-                                    return `<meta ${_m}/>`;
-                                }).join("\n");
-                                _srdata = _srdata.replace("{{meta}}", _cmeta);
-                            }
-                            res.setHeader("Content-Type", "text/html");
-                            res.status(HttpCode.OK).send(_srdata).end();
-                        });
+                        else {
+                            currentPage = sr;
+                        }
+                        if (!this.getServerResponse(req, res, currentPage.page)) {
+                            next();
+                        }
                     }
                     else {
                         next();
@@ -227,6 +226,33 @@ class DamiApp {
     }
     getExpress() {
         return express;
+    }
+    getServerResponse(req, res, page) {
+        const file = Dami.getCurrentPath() + '/' + page;
+        if (!_fs.existsSync(file)) {
+            return false;
+        }
+        _fs.readFile(file, (err, data) => {
+            let _srdata = data.toString("utf-8");
+            const title = res.title;
+            console.log(res.title);
+            if (title) {
+                const _ctitle = `<title>${title}</title>`;
+                _srdata = _srdata.replace("{{title}}", _ctitle);
+            }
+            if (!isEmpty(res.meta)) {
+                const _cmeta = res.meta.map(m => {
+                    const _m = Object.keys(m).map(a => {
+                        return `${a}="${m[a]}"`;
+                    }).join(" ");
+                    return `<meta ${_m}/>`;
+                }).join("\n");
+                _srdata = _srdata.replace("{{meta}}", _cmeta);
+            }
+            res.setHeader("Content-Type", "text/html");
+            res.status(HttpCode.OK).send(_srdata).end();
+        });
+        return true;
     }
     getControllers(controller, newController = [], con = '') {
         for (const cont of Object.keys(controller)) {

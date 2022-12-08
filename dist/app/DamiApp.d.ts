@@ -10,6 +10,7 @@ declare class DamiApp {
     init: (configSetting: IDamiConfig) => void;
     configReq: (req: any, res: any, next: any) => void;
     run: (initRun?: (app: any) => {}) => void;
+    private getServerResponse;
     private getControllers;
 }
 export default DamiApp;
